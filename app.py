@@ -13,6 +13,9 @@ def index():
 
 @app.route('/', methods=['POST'])
 def receive_file():
+    # TODO: read mp3 files
+    # TODO: stream files into wavread
+
     file = request.files['file']
 
     if file.filename == "":
@@ -24,6 +27,8 @@ def receive_file():
     file.save('audio.wav')
     analyse_file('audio.wav', file.filename)
 
+    # TODO: implement charts into index.html
+    # TODO: Make navbar elements (1: DFT)
     return render_template('report.html')
 
 

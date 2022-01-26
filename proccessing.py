@@ -15,12 +15,14 @@ def analyse_file(filename, title):
     if len(aud.shape) == 2:
         aud = aud.sum(axis=1) / 2
 
+    # TODO: Correctness of the processing (dB scale)
     sig_t = norm(aud[samples[0]: samples[1]])
 
     sig_f = rfft(sig_t, workers=1)
     freq = rfftfreq(len(sig_t), 1 / fs)
     sig_tout = irfft(sig_f, workers=1)
 
+    # TODO: Colors + aesthetics of the charts
     fig = make_subplots(rows=4,
                         subplot_titles=("Raw Audio: x",
                                         "Re-synthesised audio (IDFT)",
