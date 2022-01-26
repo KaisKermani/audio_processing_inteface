@@ -13,7 +13,7 @@ def analyse_file(filename, title):
     fs, aud = wavfile.read(filename)
     if len(aud.shape) == 2:
         aud = aud.sum(axis=1) / 2
-    sig_t = norm(aud[samples[0]: samples[1]])
+    sig_t = norm(aud[samples[0]: fs])
 
     sig_f = rfft(sig_t, workers=-1)
     freq = rfftfreq(len(sig_t), 1 / fs)
