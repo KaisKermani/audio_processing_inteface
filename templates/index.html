@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/static/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1, user-scalable=no">
+    <title>Data Processor</title>
+</head>
+<body class="text-center">
+
+    <nav class="navbar navbar-light bg-light shadow" >
+        <div class="container-fluid">
+            <a class="display-4" style="color: black; text-decoration: none" href="/">Data processing web app</a>
+        </div>
+    </nav>
+
+    <div class="container  pt-4" style="background: rgba(255, 255, 255, 0.9);">
+
+        <p class="lead text-start">
+            Input files to upload:
+        </p>
+
+        <form action="/" method="POST" enctype="multipart/form-data">
+            <div class="input-group">
+                <input type="file" name="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+            </div>
+
+            <div class="p-2">
+                <button type="submit"  id="submit" class="btn btn-success text-left btn-lg" name="response" value="HTML">Process!</button>
+            </div>
+        </form>
+
+        {% if user_msg is defined %}
+        <div class="alert alert-info" role="alert">
+            {{ user_msg }}
+        </div>
+        {% endif %}
+
+        {% if user_warn is defined %}
+        <div class="alert alert-warning" role="alert">
+            {{ user_warn }}
+        </div>
+        {% endif %}
+
+
+    </div>
+</body>
+</html>
