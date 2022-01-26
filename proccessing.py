@@ -22,7 +22,7 @@ def analyse_file(filename, title):
     sig_tout = irfft(sig_f, workers=1)
 
     fig = make_subplots(rows=4,
-                        subplot_titles=("Raw Audio (First second of the file): x",
+                        subplot_titles=("Raw Audio: x",
                                         "Re-synthesised audio (IDFT)",
                                         "Magnitude spectrum: mX",
                                         "Phase Spectrum: pX",
