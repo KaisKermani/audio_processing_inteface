@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from proccessing import analyse_file
 
 app = Flask(__name__)
-app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 5  # MB
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1  # MB
 app.config['UPLOAD_EXTENSIONS'] = ['wav', ]
 
 

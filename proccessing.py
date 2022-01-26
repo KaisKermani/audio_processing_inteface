@@ -9,19 +9,20 @@ import math
 
 def analyse_file(filename, title):
 
-    fs, aud = wavfile.read(filename)
-    samples = (0, fs)
+    samples = (0, -1)
 
+    fs, aud = wavfile.read(filename)
     if len(aud.shape) == 2:
         aud = aud.sum(axis=1) / 2
+
     sig_t = norm(aud[samples[0]: samples[1]])
 
-    sig_f = rfft(sig_t, workers=-1)
+    sig_f = rfft(sig_t, workers=1)
     freq = rfftfreq(len(sig_t), 1 / fs)
-    sig_tout = irfft(sig_f, workers=-1)
+    sig_tout = irfft(sig_f, workers=1)
 
     fig = make_subplots(rows=4,
-                        subplot_titles=("Raw Audio: x",
+                        subplot_titles=("Raw Audio (First second of the file): x",
                                         "Re-synthesised audio (IDFT)",
                                         "Magnitude spectrum: mX",
                                         "Phase Spectrum: pX",
