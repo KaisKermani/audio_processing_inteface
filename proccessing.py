@@ -11,7 +11,7 @@ def analyse_file(filename, title):
     samples = (0, -1)
 
     fs, aud = wavfile.read(filename)
-    if aud.shape == 2:
+    if len(aud.shape) == 2:
         aud = aud.sum(axis=1) / 2
     sig_t = norm(aud[samples[0]: samples[1]])
 
