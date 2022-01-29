@@ -4,23 +4,20 @@ from plotly.subplots import make_subplots
 import scipy.io.wavfile as wavfile
 from scipy.fft import rfft, rfftfreq, irfft
 from normalization import norm
-import math
 
 
-def analyse_file(filename, title):
+def dft_analysis(file):
 
     samples = (0, -1)
 
-    fs, aud = wavfile.read(filename)
+    fs, aud = wavfile.read(file)
     if len(aud.shape) == 2:
         aud = aud.sum(axis=1) / 2
 
-    # TODO: Correctness of the processing (dB scale)
     sig_t = norm(aud[samples[0]: samples[1]])
-
-    sig_f = rfft(sig_t, workers=1)
+    sig_f = rfft(sig_t/len(sig_t), workers=-1)
     freq = rfftfreq(len(sig_t), 1 / fs)
-    sig_tout = irfft(sig_f, workers=1)
+    sig_tout = irfft(sig_f, workers=-1)*len(sig_t)
 
     # TODO: Colors + aesthetics of the charts
     fig = make_subplots(rows=4,
@@ -39,10 +36,10 @@ def analyse_file(filename, title):
 
     fig.append_trace(go.Scatter(
         x=freq,
-        y=np.abs(sig_f),
+        y=20*np.log10(np.abs(sig_f)),
         showlegend=False,
     ), row=3, col=1)
-    fig.update_yaxes(type="log", row=3, col=1)
+    fig.update_yaxes(row=3, col=1)
 
     fig.append_trace(go.Scatter(
         x=freq,
@@ -55,7 +52,7 @@ def analyse_file(filename, title):
         showlegend=False,
     ), row=2, col=1,)
 
-    fig.update_layout(title_text="DFT Analysis: " + title,
+    fig.update_layout(title_text="DFT Analysis: " + file.filename,
                       xaxis_showticklabels=True, xaxis2_showticklabels=True, xaxis3_showticklabels=True,
                       xaxis_matches='x2', xaxis2_matches=None)
 

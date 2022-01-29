@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request
-from proccessing import analyse_file
+from proccessing import dft_analysis
 
 app = Flask(__name__)
-app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1  # MB
-app.config['UPLOAD_EXTENSIONS'] = ['wav', ]
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 5  # MB
+app.config['UPLOAD_EXTENSIONS'] = ['wav', 'mp3']
 
 
 @app.route('/')
@@ -13,9 +13,6 @@ def index():
 
 @app.route('/', methods=['POST'])
 def receive_file():
-    # TODO: read mp3 files
-    # TODO: stream files into wavread
-
     file = request.files['file']
 
     if file.filename == "":
@@ -24,8 +21,7 @@ def receive_file():
     if file.filename.split('.')[-1].lower() not in app.config['UPLOAD_EXTENSIONS']:
         return render_template('index.html', user_warn="File uploaded is not valid!")
 
-    file.save('audio.wav')
-    analyse_file('audio.wav', file.filename)
+    dft_analysis(file)
 
     # TODO: implement charts into index.html
     # TODO: Make navbar elements (1: DFT)
