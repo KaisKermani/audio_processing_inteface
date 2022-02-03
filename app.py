@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from proccessing import dft_analysis
+from visualization_plotly import dft_plot
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 5  # MB
@@ -21,11 +22,11 @@ def receive_file():
     if file.filename.split('.')[-1].lower() not in app.config['UPLOAD_EXTENSIONS']:
         return render_template('index.html', user_warn="File uploaded is not valid!")
 
-    dft_analysis(file)
+    html_fig = dft_plot(*dft_analysis(file))
 
     # TODO: implement charts into index.html
     # TODO: Make navbar elements (1: DFT)
-    return render_template('report.html')
+    return render_template('index.html', figures=html_fig)
 
 
 if __name__ == '__main__':
